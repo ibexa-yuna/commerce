@@ -132,7 +132,9 @@ jobs:
             python main.py >> generator_output
             echo '' >> generator_output
           done
-          echo "output=$( cat generator_output )" >> $GITHUB_OUTPUT
+          echo "CHANGELOG_OUTPUT<<EOF" >> $GITHUB_ENV
+          echo "$(cat generator_output)" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Create Release
         id: create_release
@@ -140,7 +142,7 @@ jobs:
         with:
           tag_name: ${{ env.BUILD_TAG }}
           body: |
-            ${{ steps.generator.outputs.output }}
+            ${{ env.CHANGELOG_OUTPUT }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
