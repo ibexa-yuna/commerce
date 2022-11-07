@@ -16,7 +16,7 @@ jobs:
         run: |
           echo "BUILD_TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       # load current composer.lock
       - id: currentLock
@@ -41,7 +41,7 @@ jobs:
           prevFullTag: ${{ steps.prevfull.outputs.tag }}
 
       # checkout previous tag
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{ steps.prevrelease.outputs.previousTag }}
 
@@ -95,19 +95,19 @@ jobs:
           currentTag: ${{ env.BUILD_TAG }}
 
       - name: Checkout Generator
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: ibexa/changelog-generator-action
           ref: v2
 
       - name: Setup Python environment
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
       - name: Install pygithub & jira
         run: |
-          pip install pygithub jira
+          pip install pygithub jira github-action-utils
 
       - name: Run generator in a loop
         id: generator
