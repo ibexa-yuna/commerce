@@ -101,13 +101,21 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+          installation_id: ${{ secrets.AUTOMATION_CLIENT_INSTALLATION }}
+          private_key: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+
       - name: Install pygithub & jira
         run: |
           pip install pygithub jira github-action-utils
       - name: Run generator in a loop
         id: generator
         env:
-          INPUT_GITHUB_TOKEN: ${{ secrets.TRAVIS_GITHUB_TOKEN }}
+          INPUT_GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           INPUT_JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
         run: |
           cat > input.json <<'EOF'
