@@ -8,4 +8,9 @@ on:
 jobs:
   create_release_for_tag:
     uses: ibexa-yuna/gh-workflows/.github/workflows/release.yml@IBX-5569
-    secrets: inherit
+    secrets:
+      AUTOMATION_CLIENT_ID: ${{ secrets.AUTOMATION_CLIENT_ID }}
+      AUTOMATION_CLIENT_INSTALLATION: ${{ secrets.AUTOMATION_CLIENT_INSTALLATION }}
+      AUTOMATION_CLIENT_SECRET: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+      JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
